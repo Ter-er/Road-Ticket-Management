@@ -1,0 +1,17 @@
+# Python cache files
+*.pyc
+__pycache__/
+
+# Virtual environment directory
+.venv/
+
+# Environment variables file
+.env
+
+# Media and static files
+media/
+staticfiles/
+
+# Ignore database dump files
+*.sql
+*.dump
