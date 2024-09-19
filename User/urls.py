@@ -1,11 +1,9 @@
+# User/urls.py
 from django.urls import path
-from .views import SignUpView, LoginView
-
+from .views import sign_up, login, motorist_dashboard_view
 
 urlpatterns = [
-    path('signup/', SignUpView.as_view(), name='signup'),
-    path('login/', LoginView.as_view(), name='login'),
+    path('signup/', sign_up, name='signup'),
+    path('login/', login, name='login'),
     path('dashboard/motorist/', motorist_dashboard_view, name='motorist_dashboard'),
-    path('dashboard/admin/', admin_dashboard_view, name='admin_dashboard'),
-    path('dashboard/official/', official_dashboard_view, name='official_dashboard'),
 ]
