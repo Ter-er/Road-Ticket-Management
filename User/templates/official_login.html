@@ -1,0 +1,26 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Official Login</title>
+    <link rel="stylesheet" href="{% static 'official_login.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home' %}"><img src="{% static 'logo.png' %}" alt="Logo"></a>
+        <h1>OFFICIAL LOGIN</h1>
+    </nav>
+    
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit" class="btn">Login</button>
+        </form>
+    </div>
+</body>
+</html>

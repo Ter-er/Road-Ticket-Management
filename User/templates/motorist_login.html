@@ -1,0 +1,28 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorist Login</title>
+    <link rel="stylesheet" href="{% static 'motorist_login.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home' %}"><img src="{% static 'logo.png' %}" alt="Logo"></a>
+        <h1>MOTORIST LOGIN</h1>
+        <a href="{% url 'motorist_signup' %}" class="signup-link">Sign Up</a>
+    </nav>
+    
+    <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="text" name="license_no" placeholder="License Number" required>
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p>For new motorists, <a href="{% url 'motorist_signup' %}" class="signup-text">Sign Up</a></p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+/* Base styles for both login and signup pages */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #007bff;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: white;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar img {
+    height: 50px; /* Adjust height as needed */
+}
+
+h1 {
+    text-align: center;
+    flex-grow: 1; /* Allows header to be centered */
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    display: block;
+    margin: 15px 0;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    background-color: #007bff; /* Change as needed */
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.btn:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.signup-text {
+    color: #333; /* Normal text color */
+}
+
+.signup-link {
+    text-decoration: underline; /* Only the link is underlined */
+    color: #007bff; /* Match the theme color */
+}

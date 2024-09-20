@@ -1,66 +1,67 @@
-# views.py
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login as auth_login
-from django.views import View
-from .forms import MotoristSignUpForm, AdminOfficialSignUpForm, MotoristLoginForm, AdminOfficialLoginForm
-from django.contrib.auth.models import Group
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from django.urls import reverse
+from .forms import MotoristSignUpForm, MotoristLoginForm, OfficialSignUpForm, OfficialLoginForm
+from .models import User
 
-# Motorist/Admin/Official Sign Up
-def sign_up(request):
+def home(request):
+    return render(request, 'home.html')
+
+# Motorist views
+def motorist_signup(request):
     if request.method == 'POST':
-        if 'license_no' in request.POST:  # Motorist
-            form = MotoristSignUpForm(request.POST)
-        else:  # Admin/Official
-            form = AdminOfficialSignUpForm(request.POST)
-
+        form = MotoristSignUpForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            if 'license_no' in request.POST:
-                user.set_password(form.cleaned_data['license_no'])  # Motorist password is license_no
-                motorist_group = Group.objects.get(name='Motorist')  # Assuming group for Motorists
-                motorist_group.user_set.add(user)
-            else:
-                user.set_password(form.cleaned_data['password'])  # Admin/Official use password
-                # Admin/Official group assignment can go here
-
-            user.save()
-            auth_login(request, user)
-            return redirect('dashboard')
+            form.save()
+            return redirect('motorist_login')
     else:
-        if 'license_no' in request.GET:  # Motorist
-            form = MotoristSignUpForm()
-        else:  # Admin/Official
-            form = AdminOfficialSignUpForm()
+        form = MotoristSignUpForm()
+    return render(request, 'motorist_signup.html', {'form': form})
 
-    return render(request, 'signup.html', {'form': form})
-
-# Motorist/Admin/Official Login
-def login(request):
+def motorist_login(request):
     if request.method == 'POST':
-        if 'license_no' in request.POST:  # Motorist
-            form = MotoristLoginForm(request.POST)
-            if form.is_valid():
-                email = form.cleaned_data['email']
-                license_no = form.cleaned_data['license_no']
-                user = authenticate(request, email=email, password=license_no)  # Authenticate Motorist by license_no
-        else:  # Admin/Official
-            form = AdminOfficialLoginForm(request.POST)
-            if form.is_valid():
-                email = form.cleaned_data['email']
-                password = form.cleaned_data['password']
-                user = authenticate(request, email=email, password=password)  # Authenticate Admin/Official by password
-
-        if user is not None:
-            auth_login(request, user)
-            return redirect('dashboard')  # Redirect to respective dashboard
+        form = MotoristLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            license_no = form.cleaned_data['license_no']
+            try:
+                user = User.objects.get(email=email, license_no=license_no, role='motorist')
+                login(request, user)  # Use Django's login method
+                return redirect('dashboard_motorist')  # Redirect to the motorist dashboard
+            except User.DoesNotExist:
+                form.add_error(None, 'Invalid email or license number')
     else:
-        if 'license_no' in request.GET:  # Motorist
-            form = MotoristLoginForm()
-        else:  # Admin/Official
-            form = AdminOfficialLoginForm()
+        form = MotoristLoginForm()
+    return render(request, 'motorist_login.html', {'form': form})
 
-    return render(request, 'login.html', {'form': form})
+# Official views
+def official_signup(request):
+    if request.method == 'POST':
+        form = OfficialSignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('official_login')
+    else:
+        form = OfficialSignUpForm()
+    return render(request, 'official_signup.html', {'form': form})
 
-# Placeholder for motorist dashboard view
-def motorist_dashboard_view(request):
-    return render(request, 'dashboard_motorist.html')
+def official_login(request):
+    if request.method == 'POST':
+        form = OfficialLoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            password = form.cleaned_data['password']
+            user = authenticate(request, email=email, password=password)
+            if user and user.role == 'official':
+                login(request, user)
+                return redirect('dashboard_official')  # Redirect to the official dashboard
+            else:
+                form.add_error(None, 'Invalid email or password')
+    else:
+        form = OfficialLoginForm()
+    return render(request, 'official_login.html', {'form': form})
+
+# Admin views
+def admin_login_redirect(request):
+    return redirect(reverse('admin:login'))

@@ -1,0 +1,30 @@
+<!-- home.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+        <a href="{% url 'home' %}"><img src="{% static 'logo.png' %}" alt="Logo"></a>
+        <h1>ROAD TICKET MANAGEMENT INTERFACE</h1>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <h2>Select Your Role</h2>
+        <div class="button-container">
+            <a href="{% url 'motorist_login' %}" class="btn">Motorist</a>
+            <a href="{% url 'official_login' %}" class="btn">Official</a>
+            <a href="{% url 'admin_login_redirect' %}" class="btn">Admin</a> <!-- Updated to match URL name -->
+        </div>
+    </div>
+</body>
+</html>
+
