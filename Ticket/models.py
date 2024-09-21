@@ -15,6 +15,7 @@ class Ticket(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     vehicle = models.ForeignKey(Vehicle, on_delete=models.CASCADE)
     offense = models.ForeignKey(Offense, on_delete=models.CASCADE)
+    ticket_no = models.CharField(max_length=20, unique=True, blank=True)  # New field added
     ticket_image = models.ImageField(upload_to='ticket_images/', null=True, blank=True)
     issue_date = models.DateTimeField(auto_now_add=True)
     official_name = models.CharField(max_length=255)
