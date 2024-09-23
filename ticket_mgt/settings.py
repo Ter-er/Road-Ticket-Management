@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'Proof',
 ]
 
+AUTH_USER_MODEL = 'User.User'  # Specifying custom user model
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -135,6 +137,8 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTHENTICATION_BACKENDS = [
-    'User.backends.EmailLicenseNoBackend',  # Custom backend for Motorist login
-    'django.contrib.auth.backends.ModelBackend',  # Default backend for Admin/Official login
+    'User.backends.EmailLicenseNoBackend',  # Motorists (email + license_no)
+    'User.backends.OfficialEmailBackend',  # Officials (email + password)
+    'django.contrib.auth.backends.ModelBackend',  # Default for Admins (email + password)
 ]
+
