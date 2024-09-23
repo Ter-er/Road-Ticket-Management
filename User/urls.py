@@ -8,5 +8,6 @@ urlpatterns = [
     path('official_signup/', views.official_signup, name='official_signup'),
     path('official_login/', views.official_login, name='official_login'),
     path('admin_login/', views.admin_login_redirect, name='admin_login_redirect'),
+    path('motorist/dashboard/', views.dashboard_motorist, name='dashboard_motorist'),
     # Add other URL patterns here
 ]

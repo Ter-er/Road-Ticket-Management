@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .forms import MotoristSignUpForm, MotoristLoginForm, OfficialSignUpForm, OfficialLoginForm
 from .models import User
+from Ticket.models import Ticket
 
 def home(request):
     return render(request, 'home.html')
@@ -65,3 +67,24 @@ def official_login(request):
 # Admin views
 def admin_login_redirect(request):
     return redirect(reverse('admin:login'))
+
+
+
+@login_required
+def dashboard_motorist(request):
+    user = request.user
+    if user.role != 'motorist':  # Ensure only motorists can access this page
+        return redirect('motorist_login')
+    
+    tickets = Ticket.objects.filter(motorist=user)  # Assuming you have a Ticket model
+    total_points = tickets.aggregate(Sum('points'))['points__sum'] or 0  # Sum of offense points
+
+    context = {
+        'first_name': user.first_name,
+        'last_name': user.last_name,
+        'license_no': user.license_no,
+        'points': total_points,
+        'tickets': tickets
+    }
+    return render(request, 'dashboard_motorist.html', context)
+

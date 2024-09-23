@@ -1,0 +1,81 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motorist Dashboard</title>
+    <link rel="stylesheet" href="{% static 'dashboard_motorist.css' %}">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <a href="{% url 'motorist_dashboard' %}">
+            <img src="{% static 'logo.png' %}" alt="Logo">
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'motorist_profile' %}">Profile</a>
+            <a href="https://road-authority-site.com/offense-list">Offense List</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Main Section -->
+    <div class="main-content">
+        <h2>Welcome, {{ motorist.first_name }} {{ motorist.last_name }}</h2>
+        <div class="motorist-info">
+            <div>
+                <p>License Number</p>
+                <h3>{{ motorist.license_no }}</h3>
+            </div>
+            <div>
+                <p>Points</p>
+                <h3>{{ motorist.points }}</h3>
+            </div>
+        </div>
+
+        <!-- Ticket Table -->
+        <h3>Tickets</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Ticket No.</th>
+                    <th>Plate No.</th>
+                    <th>Offense Code</th>
+                    <th>Penalty</th>
+                    <th>Date</th>
+                    <th>Deadline</th>
+                    <th>Pay</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if tickets %}
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td><a href="{% url 'ticket_details' ticket.id %}">{{ ticket.ticket_no }}</a></td>
+                        <td>{{ ticket.plate_no }}</td>
+                        <td><a href="https://road-authority-site.com/offense/{{ ticket.offense_code }}">{{ ticket.offense_code }}</a></td>
+                        <td>{{ ticket.penalty }}</td>
+                        <td>{{ ticket.date }}</td>
+                        <td>{{ ticket.deadline }}</td>
+                        <td><a href="{% url 'pay_ticket' ticket.id %}" class="btn">Pay</a></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="7">No tickets</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+
+        <p>Click Ticket No to see full details</p>
+        
+        <!-- Additional Buttons -->
+        <div class="buttons">
+            <a href="{% url 'ticket_history' %}" class="btn">Ticket History</a>
+            <a href="{% url 'dispute_ticket' %}" class="btn">Dispute Ticket</a>
+        </div>
+    </div>
+</body>
+</html>
