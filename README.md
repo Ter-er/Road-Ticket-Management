@@ -7,7 +7,7 @@ The project is also my attempt at project-based learning and solving a problem i
 - Database creation and population
 - Basic CRUD operations
 - Basic authentication and authorization
-- 
+  
 I am using Django as the backend framework and PostgreSQL as the database. The frontend was created using basic HTML and CSS.
 
 This is the first implementation of the project (V1). I intended to implement a number of features, and after research, I concluded that they were necessary for the project to meet its functional requirements.
