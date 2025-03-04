@@ -1,4 +1,4 @@
-# Road-Ticket-Management (This README file is subject to continous change as i learn and document my progress)
+# Road-Ticket-Management (This README file is subject to continuous change as I learn and document my progress.)
 
 This is a road ticket management project for motorists and officials to replace the current system in Nigeria which causes confrontations between both parties due to lack of means to make payments convienently and means to monitor and track tickets as the current system is paper based. 
 The aim of the project is to create a platform for seamless payment of road traffic tickets, monitor and track tickets and completely remove unnecesary confrontations between motorists and officials as the current system gives rise to all these problems.
